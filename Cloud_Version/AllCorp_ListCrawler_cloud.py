@@ -13,7 +13,7 @@ def main():
 
     for corp in flight_corp:
         # 判斷總列表.csv檔是否存在，若不存在則先建立一個只有columns的空表格
-        file = f'C:/Users/add41/Documents/Data_Engineer/docker/Develop/FlightCrawler/FlightData/{corp}_FlightList.csv'
+        file = f'/app/FlightData/{corp}_FlightList.csv'
         list_path = Path(file)
 
         if list_path.exists():
