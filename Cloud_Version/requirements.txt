@@ -12,3 +12,4 @@ kafka-python
 sqlalchemy
 pymysql
 flask
+google-cloud-storage
