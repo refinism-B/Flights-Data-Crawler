@@ -7,6 +7,8 @@ import time
 import os
 from pathlib import Path
 import FlightMod.CrawlList as fcl
+from google.cloud import storage
+
 
 def main():
     flight_corp = ["EVA", "CAL", "SJX", "TTW"]
@@ -168,6 +170,25 @@ def main():
         print(f'完成{corp}資料更新，目前資料筆數：{len(df_list)}')
         print('5秒後繼續...')
         time.sleep(5)
+
+        try:
+            # 將檔案上傳至GCS保存
+            now = datetime.now().strftime("%Y%m%d_%H%M%S")
+            now = str(now)
+
+            bucket_name = "flight-data-storage"
+            destination_file = f"flight-list-data/{corp}_FlightList_{now}.csv"
+            credentials_path = "/app/key/tactile-pulsar-473901-a1-4763fa15e78b.json"
+
+            client = storage.Client.from_service_account_json(credentials_path)
+            bucket = client.bucket(bucket_name)
+            blob = bucket.blob(destination_file)
+
+            blob.upload_from_filename(file)
+            print("已將檔案上傳至GCS！")
+
+        except Exception as e:
+            print(f'發生錯誤：{e}')
 
     print('已完成所有航空公司資料更新！')
 
