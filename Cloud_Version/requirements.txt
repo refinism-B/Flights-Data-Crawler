@@ -1,0 +1,14 @@
+pandas
+numpy
+requests
+beautifulsoup4
+selenium
+pillow
+matplotlib
+seaborn
+python-dateutil
+scikit-learn
+kafka-python
+sqlalchemy
+pymysql
+flask
