@@ -57,6 +57,9 @@ def gate_exist(soup):
 
 def split_tz(time_str:str):
     """將帶有時區的時間字串分割，得到[time, timezone]列表"""
+    if "(" in time_str:
+        time_str = time_str.split("(")[0].strip()
+
     time_, tz = time_str.split(' ')
     return time_, tz
 
