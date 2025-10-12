@@ -77,7 +77,7 @@ for corp in flight_corp:
     data = []
 
     # 建立selenium連線
-    driver_path = './chromedriver.exe'
+    driver_path = r'C:\Users\add41\Documents\Data_Engineer\Project\Flights-Data-Crawler\chromedriver.exe'
     service = Service(driver_path)
     chrome_options = Options()
     chrome_options.add_argument("--headless")
