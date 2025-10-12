@@ -51,7 +51,9 @@ for corp in flight_corp:
         'arrive_timezone',
         'link'
         ]
+
         df_table = pd.DataFrame(columns=columns)
+
 
     # 設定航班列表的資料表路徑，並將列表資料讀入
     list_file = f'C:/Users/add41/Documents/Data_Engineer/Project/Flights-Data-Crawler/FlightData/{corp}_FlightList.csv'
@@ -128,6 +130,7 @@ for corp in flight_corp:
 
     driver.quit()
 
+
     columns = [
         'flight_NO',
         'flight_type',
@@ -173,7 +176,5 @@ for corp in flight_corp:
     # 將修改後的df_list再存檔回FlightList.csv檔案
     df_list.to_csv(list_file, index=False)
 
-    print(f"已更新{corp}所有航班資料")
 
-
-print("已完成所有資料更新")
+print('已更新所有資料！')
