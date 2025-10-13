@@ -48,7 +48,7 @@ def gate_exist(soup):
     gate = 0
     x = soup
     for i in x('div'):
-        if '閘口' in i.text:
+        if '閘口' or "停机位" in i.text:
             gate = 1
             break
     return gate
@@ -74,9 +74,9 @@ def crawl_flight_data(soup, url, gate_exist:bool):
 
     # 航班編號、機型、航空公司、飛行距離
     flight_data.append(safe_extract(lambda: soup('div', class_='flightPageIdent')[0].h1.text.strip()))
-    flight_data.append(safe_extract(lambda: soup('div', class_='flightPageDataRow')[find_tag(div_list, '機型')]('div', class_='flightPageData')[0].text.strip().replace('\xa0', ' ')))
-    flight_data.append(safe_extract(lambda: soup('div', class_='flightPageDataRow')[find_tag(div_list, '航空公司')]('div', class_='flightPageData')[0].text.strip().split('\n')[0]))
-    flight_data.append(safe_extract(lambda: soup('div', class_='flightPageDataRow')[find_tag(div_list, '距離')].span.text.strip().replace(',', '').split(' ')[1]))
+    flight_data.append(safe_extract(lambda: soup('div', class_='flightPageDataRow')[0]('div', class_='flightPageData')[0].text.strip().replace('\xa0', ' ')))
+    flight_data.append(safe_extract(lambda: soup('div', class_='flightPageDataRow')[2]('div', class_='flightPageData')[0].text.strip().split('\n')[0]))
+    flight_data.append(safe_extract(lambda: soup('div', class_='flightPageDataRow')[5].span.text.strip().replace(',', '').replace("\n", "").replace("\t", "")))
 
     # 起飛機場、起飛城市
     flight_data.append(safe_extract(lambda: soup('div', class_='flightPageSummaryOrigin')[0]('span', class_='displayFlexElementContainer')[0].text.strip()))

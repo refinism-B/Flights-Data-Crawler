@@ -77,38 +77,37 @@ for corp in flight_corp:
     data = []
 
     # 建立selenium連線
-    driver_path = r'C:\Users\add41\Documents\Data_Engineer\Project\Flights-Data-Crawler\chromedriver.exe'
-    service = Service(driver_path)
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    selenium_url = "http://localhost:4444/wd/hub"
+    options = Options()
+    options.add_argument("--headless")
     print('建立連線')
 
     # 根據df_list中的link欄位跑回圈，逐一進入網頁取得html編碼
     for url in source['link']:
-        try:
-            driver.get(url)
-
-            # 網頁內有JavaScript動態生成內容，故設定等待網頁讀取完畢後再動作
-            wait = WebDriverWait(driver, 15)
-            element = wait.until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME, "flightPageSummaryDepartureDay"))
-            )
-
-            # 如果有cookie選項的話選取同意，若沒有就跳過
+        with webdriver.Remote(command_executor=selenium_url, options=options) as driver:
             try:
-                driver.find_element(By.ID, 'onetrust-accept-btn-handler').click()
-                time.sleep(4)
+                driver.get(url)
 
-            except:
-                pass
+                # 網頁內有JavaScript動態生成內容，故設定等待網頁讀取完畢後再動作
+                wait = WebDriverWait(driver, 15)
+                element = wait.until(
+                    EC.presence_of_all_elements_located((By.CLASS_NAME, "flightPageSummaryDepartureDay"))
+                )
 
-            # 取得網頁html碼，並轉換成soup物件
-            page_source = driver.page_source
-        
-        except Exception as e:
-            print(f"無法存取 {url}: {e}")
-            continue
+                # 如果有cookie選項的話選取同意，若沒有就跳過
+                try:
+                    driver.find_element(By.ID, 'onetrust-accept-btn-handler').click()
+                    time.sleep(4)
+
+                except:
+                    pass
+
+                # 取得網頁html碼，並轉換成soup物件
+                page_source = driver.page_source
+            
+            except Exception as e:
+                print(f"無法存取 {url}: {e}")
+                continue
 
         soup = BeautifulSoup(page_source, 'html.parser')
         flight_no = soup('div', class_='flightPageIdent')[0].h1.text.strip()
@@ -127,9 +126,6 @@ for corp in flight_corp:
         data.append(flight_data)
         print(f'完成存取{flight_no}航班資料')
         time.sleep(7)
-
-    driver.quit()
-
 
     columns = [
         'flight_NO',
