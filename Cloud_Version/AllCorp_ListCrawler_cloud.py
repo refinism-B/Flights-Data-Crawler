@@ -6,7 +6,7 @@ import pandas as pd
 import time
 import os
 from pathlib import Path
-import FlightMod.CrawlList as fcl
+import Mods.CrawlList as fcl
 from google.cloud import storage
 
 

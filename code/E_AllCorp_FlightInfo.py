@@ -12,7 +12,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
-import FlightMod.FlightInfo as fi
+import Mods.FlightInfo as fi
 
 
 # 航空公司清單
