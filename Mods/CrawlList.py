@@ -32,5 +32,5 @@ def split_airport_code(code):
     else:
         code1 = None
         code2 = None
-    
+
     return code1, code2
